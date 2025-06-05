@@ -7,4 +7,11 @@ terraform {
       version = "~> 6.31"
     }
   }
+
+  required_providers {
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.37"
+    }
+  }
 }
