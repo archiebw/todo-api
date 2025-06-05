@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+data:
+  ENVIRONMENT: '{{ .Values.environment }}'
+  LOG_LEVEL: '{{ .Values.log_level }}'
+  GOOGLE_FIRESTORE_PROJECT: '{{ .Values.google_firestore_project }}'
+  PORT: '{{ .Values.containerPort }}'

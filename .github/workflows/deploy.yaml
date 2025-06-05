@@ -1,0 +1,61 @@
+name: Build and Deploy to GKE
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/workflows/terraform.yaml'
+      - 'deploy/terraform/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: PRODUCTION
+      IMAGE_NAME: todo-api
+      VERSION: "1.0.${{ github.run_number }}"
+      DEPLOYMENT_NAME: todo-api
+      HELM_RELEASE: todo
+      CHART_PATH: ./deploy/helm
+      NAMESPACE: todo
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Auth - GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Auth - GCP container registry
+        run: |
+          gcloud auth configure-docker ${{ vars.GCP_REGION }}-docker.pkg.dev
+
+      - name: Build - Docker
+        run: |
+          IMAGE_URI=${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/${IMAGE_NAME}:${VERSION}
+          docker build -t ${IMAGE_URI} .
+          docker push ${IMAGE_URI}
+
+      - name: Auth - GKE
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ vars.GCP_CLUSTER_NAME }}
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+          location: ${{ vars.GCP_REGION }}
+
+      - name: Deploy - Helm
+        run: |
+          echo "${{ secrets.GCP_CREDENTIALS }}" > gcp-key.json
+          IMAGE_URI=${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/${IMAGE_NAME}:latest
+          helm upgrade --install ${HELM_RELEASE} ${CHART_PATH} \
+            --namespace $NAMESPACE \
+            --create-namespace \
+            --set image.repository=${IMAGE_URI} \
+            --set image.tag=${VERSION} \
+            --set environment=${ENVIRONMENT} \
+            --set log_level=${{ vars.LOG_LEVEL }} \
+            --set google_firestore_project=${{ vars.GCP_PROJECT_ID }} \
+            --set service_account_name=${{ vars.GCP_TODO_SERVICE_ACCOUNT_NAME }}
