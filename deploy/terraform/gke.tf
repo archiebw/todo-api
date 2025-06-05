@@ -63,6 +63,12 @@ resource "google_artifact_registry_repository" "default" {
   }
 }
 
+resource "google_project_iam_member" "gke_nodes_artifact_registry_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:${module.gke.service_account}"
+}
+
 resource "kubernetes_namespace" "todo" {
   metadata {
     annotations = {
