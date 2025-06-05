@@ -49,7 +49,7 @@ jobs:
       - name: Deploy - Helm
         run: |
           echo "${{ secrets.GCP_CREDENTIALS }}" > gcp-key.json
-          IMAGE_URI=${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/${IMAGE_NAME}:latest
+          IMAGE_URI=${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/${IMAGE_NAME}
           helm upgrade --install ${HELM_RELEASE} ${CHART_PATH} \
             --namespace $NAMESPACE \
             --create-namespace \
