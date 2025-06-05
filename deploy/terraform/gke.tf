@@ -67,7 +67,7 @@ module "todo_workload_identity" {
   source  = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   version = "~> 36.0"
 
-  name       = "todo"
+  name       = "id-${module.gke.name}"
   namespace  = var.workload_identity_namespace
   project_id = var.project_id
   roles      = ["roles/datastore.editor"]
