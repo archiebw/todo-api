@@ -10,7 +10,7 @@ on:
 
 jobs:
   terraform:
-    name: Terraform Apply - prod
+    name: Terraform - Prod
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -30,27 +30,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Terraform - Setup
+      - name: Setup
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.4
 
-      - name: Terraform - Init
+      - name: Init
         run: terraform init
 
-      - name: Terraform - fmt
+      - name: fmt
         run: terraform fmt -check
 
-      - name: Terraform - validate
+      - name: validate
         run: terraform validate
 
-      - name: Terraform - Plan
+      - name: Plan
         id: plan
         run: terraform plan -out=tfplan
 
-      - name: Terraform - Show
+      - name: Show
         run: terraform show tfplan
 
-      - name: Terraform - Apply
+      - name: Apply
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve tfplan
