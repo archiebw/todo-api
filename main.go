@@ -53,9 +53,9 @@ func setupDB() {
 func setupFirestore() {
 	e.Logger.Info("Initialising DB...")
 	var err error
-	db, err = firestoredb.New("archiebw-todo")
+	db, err = firestoredb.New(env.GOOGLE_FIRESTORE_PROJECT)
 	if err != nil {
-		e.Logger.Fatal("Failed to initialise firestore db...")
+		e.Logger.Fatal(err)
 	}
 }
 
