@@ -77,7 +77,7 @@ module "todo_workload_identity" {
   version = "~> 36.0"
 
   name       = "id-${module.gke.name}"
-  namespace  = kubernetes_namespace.todo.name
+  namespace  = kubernetes_namespace.todo.metadata.name
   project_id = var.project_id
   roles      = ["roles/datastore.user"]
 }
