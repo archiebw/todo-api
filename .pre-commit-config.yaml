@@ -9,4 +9,8 @@ repos:
     hooks:
       - id: terraform_fmt
       - id: terraform_tflint
+      - id: terraform_docs
+        args:
+          - --hook-config=--path-to-file=README.md
+          - --hook-config=--create-file-if-not-exist=true
       # - id: terraform_trivy
