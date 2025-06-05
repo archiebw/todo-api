@@ -63,6 +63,15 @@ resource "google_artifact_registry_repository" "default" {
   }
 }
 
+resource "kubernetes_namespace" "todo" {
+  metadata {
+    annotations = {
+      name = "todo"
+    }
+    name = "todo"
+  }
+}
+
 module "todo_workload_identity" {
   source  = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   version = "~> 36.0"
