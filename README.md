@@ -19,5 +19,5 @@ A bootstrapping script is included initial setup of the GCP project and TF backe
 
 ## Github Workflows
 
-`.github/workflows/terraform.yaml` - For deploying terraform changes.
-`.github/workflows/deploy.yaml` - For building and deploying the application to GKE via helm chart.
+- `.github/workflows/terraform.yaml` - For deploying terraform changes.
+- `.github/workflows/deploy.yaml` - For building and deploying the application to GKE via helm chart.
