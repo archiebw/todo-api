@@ -70,5 +70,5 @@ module "todo_workload_identity" {
   name       = "id-${module.gke.name}"
   namespace  = "todo"
   project_id = var.project_id
-  roles      = ["roles/datastore.editor"]
+  roles      = ["roles/datastore.user"]
 }
