@@ -49,7 +49,7 @@ if (gsutil ls "${TF_STATE_BUCKET}" &>/dev/null)
     echo -e "TF State: The Terraform state bucket ($TF_STATE_BUCKET) for ($GCP_PROJECT) already exists."
   else
     echo -e "Tf State: Creating Terraform state bucket ($TF_STATE_BUCKET) for ($GCP_PROJECT)."
-    gsutil mb -p "${GCP_PROJECT}" -c multi_regional -b on "${TF_STATE_BUCKET}"
+    gsutil mb -p "${GCP_PROJECT}" -l eu -b on "${TF_STATE_BUCKET}"
     gsutil versioning set on "${TF_STATE_BUCKET}"
 fi
 

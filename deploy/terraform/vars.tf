@@ -29,9 +29,3 @@ variable "ip_range_services_name" {
   description = "The secondary ip range to use for services"
   default     = "ip-range-svc"
 }
-
-variable "workload_identity_namespace" {
-  type        = string
-  description = "The namespace for workload identity"
-  default     = ""
-}
