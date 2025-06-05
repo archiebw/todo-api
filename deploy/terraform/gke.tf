@@ -64,9 +64,11 @@ resource "google_artifact_registry_repository" "default" {
 }
 
 module "todo_workload_identity" {
-  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name                = "todo"
-  namespace           = var.workload_identity_namespace
-  project_id          = var.project_id
-  roles               = ["roles/datastore.editor"]
+  source  = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  version = "~> 36.0"
+
+  name       = "todo"
+  namespace  = var.workload_identity_namespace
+  project_id = var.project_id
+  roles      = ["roles/datastore.editor"]
 }
