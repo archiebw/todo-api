@@ -23,7 +23,3 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Chart.Name }}-config
-          volumeMounts:
-            - name: gcp-sa-key
-              mountPath: /secrets
-              readOnly: true
